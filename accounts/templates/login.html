@@ -1,0 +1,90 @@
+
+
+
+{%extends "base.html"%} {% load bootstrap3 %} {% block content %}
+<div class="container">
+    <div class="logincont">
+        <!-- Image beside Login-Form -->
+
+        <div class="loginimage">
+            <img src="../../static/images/instagrampicture2.png " alt="instagram login phone ">
+        </div>
+
+        <!-- Output to Display error in login -->
+        <div class="loginform">
+            {% if form.errors %}
+            <p > Password or Username is incorrect </p>
+            {% endif %}
+            <!--Collapse Output to Display error in login -->
+
+
+            <!-- BootStrap class to add border to login form -->
+            <div  class="panel panel-default">
+
+                <!-- Instagram image at the top of Login form -->
+
+                    <img src="../../static/images/instalogowhite.png" alt="signuplogo " style="width:250px; height:80px;margin: 5px auto; display: block;">
+
+                <!--Collaplse Instagram image at the top of Login form -->
+
+                <div class="panel-body">
+
+                    <form action="" method="post">
+                        {% csrf_token %} {% bootstrap_form form%}
+
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-primary btn-lg btn-block" value="Вход">
+                        </div>
+
+                        <div class="col-xs-10"></div>
+                        <h2 class="text-center">
+                            <small>ИЛИ</small>
+                        </h2>
+                        <div class="col-xs-2"></div>
+
+                        <!-- Signup Button Next to (Do you have an account)! -->
+                        <div class="panel-heading">
+                            <p class="_g9ean pull-left">У вас есть аккаунт?</p>
+                            <a href="{% url 'register' %}" class="btn btn-primary btn-sm pull-right">Регистрация</a>
+                        </div>
+                        <!--Collapse Signup Button! -->
+                        <input type="hidden" name="next" value="{{next}}">
+
+                    </form>
+
+
+                </div>
+
+
+
+            </div>
+            <!-- Play Store and Apple store Images With well text to put them sidebyside! -->
+            <div class="login-playstorebtn">
+
+
+                <div class="googlebtn">
+
+                    <a href="https://play.google.com/store/search?q=instagram"><img src="../../static/images/playstore.svg" alt="signuplogo " style="width:150px; height:40px "></a>
+
+                </div>
+
+                <div class="applebtn">
+
+                    <a href="https://www.apple.com/us/search/instagram?src=itunes_serp"><img src="../../static/images/applestore.jpeg"  alt="signuplogo " style="width:150px; height:40px "></a>
+
+                </div>
+
+            </div>
+            <!--Collapse! Play Store and Apple store Images With well text to put them sidebyside! -->
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+{% endblock %}
+
+

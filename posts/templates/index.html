@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% load static%}
+{% load bootstrap3 %}
+{% block content %}
+{{block.super}}
+
+{% if request.user.is_authenticated %}
+
+{% else %}
+<p>You must be authenticated</p>
+{% endif %}
+<div class="homebody">
+    <div class="container">
+        <div class="w3-card-6" style="width:56%">
+            {% if answer == 'yes' %}
+                {% for account in accounts %}
+                    {% if not account.is_superuser %}
+                        <p class="usernamehome-dp">
+                            <img src="{{ account.avatar.url }}" class="circlehome-dp" alt="signuplogo ">
+                            <a href="{% url 'profile' account.pk %}"><strong> "{{ account.username }}" </strong></a>
+                        </p>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+            {% if answer == 'no' %}
+                <p>Не найдено</p>
+            {% endif %}
+            {% if answer == 'post' %}
+
+
+                <div class="container">
+                    {% if posts %} {% for post in posts %}
+
+                    <div class="imagepadding">
+
+                        <!-- BootStrap Class For adding Border arround picture -->
+                        <div class="panel panel-primary">
+
+                            <!-- SECTION 1 PROFILE & user name -->
+
+                            <!-- Profile Picture and User name for account -->
+
+                            <p class="usernamehome-dp">
+                                <img src="{{ post.author.avatar.url }}" class="circlehome-dp" alt="signuplogo ">
+
+                                <a href="{% url 'profile' post.author.pk %}"><strong> "{{ post.author.username }}" </strong></a>
+
+                            </p>
+
+                            <!-- SECTION 2 (IMAGE) -->
+                            <!-- POSTED IMAGE -->
+                            <a href="{{ post.image }}" data-lightbox="gallery">
+                                <img src="{{ post.image.url }}" class="img-responsive" style="width:100%;margin-left: 0%;margin-top:15px; ">
+                            </a>
+
+                            <!--Like & Comment Section -->
+                            <div class="container">
+                                <div class='likesect'>
+
+                                    <span class="like-row">
+
+                                        {% if request.user not in post.user_likes.all %}
+                                            <a href="{% url 'like' post.pk %}"><img class="likedhrt" src="{% static 'images/like.png' %}" alt="liked picture"class="img-responsive"> </a>
+                                        {% else %}
+                                             <img class="likehrt" src="{% static 'images/liked.png' %}" alt="not likedpicture" class="img-responsive">
+                                        {% endif %}
+                                        <img class="commenthrt" id='comment-icon' src="../../static/images/comment.png"class="img-responsive" alt=" commentImage">
+                                        <p><strong>{{post.user_likes.all.count}} отметок "Нравится"</strong> </p>
+                                        <img class="savehrt" src="{% static 'images/unsaved.png' %}" alt="save picture">
+
+                                        </p>
+                                    </span>
+
+
+
+                            <strong> "{{ post.author.username }}" </strong>
+                            <p></strong> {{post.description}}</p>
+                                    <p><strong>{{post.comment_count}} комментариев:</strong> </p>
+                                    {% for comment in comments %}
+                                        {% if post == comment.post %}
+                                             <img src="{{ comment.author.avatar.url }}" class="circlehome-dp" alt="signuplogo ">
+                                            <a href="{% url 'profile' comment.author.pk %}"><strong> {{comment.author}} </strong></a>
+
+                                            <p>{{comment.text}}</p>
+                                        {% endif %}
+                                    {% endfor %}
+
+
+
+                            <div class='commentsection'>
+
+                                <form class="comment" action="{% url 'comment' post.pk %}" method="POST">
+                                    {% csrf_token %}
+                                    {% bootstrap_form comment_form %}
+                                    {% bootstrap_button button_type="submit" content='Опубликовать' %}
+                                </form>
+                            </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                    {% endfor %} {% else%}
+                    <h3>You have no images</h3>
+
+                    {% endif %}
+
+                </div>
+            {% endif %}
+
+
+        </div>
+    </div>
+</div>
+{% endblock %}

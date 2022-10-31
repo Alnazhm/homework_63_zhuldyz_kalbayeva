@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load static%}
+{% load bootstrap3 %}
+{% block content %}
+{{block.super}}
+<div class="homebody">
+    <div class="container">
+        <div class="w3-card-6" style="width:56%">
+                <div class="container">
+                    <div class="imagepadding">
+                        <div class="panel panel-primary">
+                            <p class="usernamehome-dp">
+                                <img src="{{ post.author.avatar.url }}" class="circlehome-dp" alt="signuplogo ">
+                                <a href="{% url 'profile' post.author.pk %}"><strong> "{{ post.author.username }}" </strong></a>
+                            </p>
+
+
+
+                                <img src="{{ post.image.url }}" class="img-responsive" style="width:100%;margin-left: 0%;margin-top:15px; ">
+
+
+
+                            <div class="container">
+                                <div class='likesect'>
+
+                                    <span class="like-row">
+
+                                        {% if request.user not in post.user_likes.all %}
+                                            <a href="{% url 'like' post.pk %}"><img class="likedhrt" src="{% static 'images/like.png' %}" alt="liked picture"class="img-responsive"> </a>
+                                        {% else %}
+                                             <img class="likehrt" src="{% static 'images/liked.png' %}" alt="not likedpicture" class="img-responsive">
+                                        {% endif %}
+                                        <img class="commenthrt" id='comment-icon' src="../../static/images/comment.png"class="img-responsive" alt=" commentImage">
+                                        <p><strong>{{post.user_likes.all.count}} отметок "Нравится"</strong> </p>
+                                        <img class="savehrt" src="{% static 'images/unsaved.png' %}" alt="save picture">
+
+                                        </p>
+                                    </span>
+
+
+
+                            <strong> "{{ post.author.username }}" </strong>
+                            <p></strong> {{post.description}}</p>
+                                    <p><strong>{{post.comment_count}} комментариев:</strong> </p>
+                                    {% for comment in comments %}
+                                        {% if post == comment.post %}
+                                             <img src="{{ comment.author.avatar.url }}" class="circlehome-dp" alt="signuplogo ">
+                                            <a href="{% url 'profile' comment.author.pk %}"><strong> {{comment.author}} </strong></a>
+
+                                            <p>{{comment.text}}</p>
+                                        {% endif %}
+                                    {% endfor %}
+
+
+
+                            <div class='commentsection'>
+
+                                <form class="comment" action="{% url 'comment' post.pk %}" method="POST">
+                                    {% csrf_token %}
+                                    {% bootstrap_form comment_form %}
+                                    {% bootstrap_button button_type="submit" content='Опубликовать' %}
+                                </form>
+                            </div>
+
+
+
+                                    <p><a class="btn btn-primary" href="{% url 'post_update' post.pk %}">Изменить</a></p>
+                                    <p><a class="btn btn-primary" href="{% url 'post_delete' post.pk %}">Удалить</a></p>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+
+        </div>
+    </div>
+</div>
+{% endblock %}

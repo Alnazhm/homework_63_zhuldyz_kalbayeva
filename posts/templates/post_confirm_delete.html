@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+
+
+{% block content %}
+    <h1>Вы точно хотите удалить пост?</h1>
+    <p>Title {{ post.description }}</p>
+    <p>Author {{ post.author }}</p>
+    <form action="{% url 'confirm_delete' post.pk %}" method="post">
+        {% csrf_token %}
+        <input type="submit" value="Да">
+        <a href="{% url 'index' %}">Нет</a>
+    </form>
+{% endblock %}

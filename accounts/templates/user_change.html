@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Редактировать пользователя{% endblock %}
+
+{% block content %}
+    <br>
+    <br>
+    <br>
+    <br>
+    <div class="panel panel-default">
+
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Instagram_logo.svg/2560px-Instagram_logo.svg.png" alt="signuplogo " style="width:190px; height:70px;margin: 5px auto; display: block;">
+            <div class="panel-body">
+                <h1>Поменять личные данные</h1>
+
+                <form action="{% url 'change' user_obj.pk %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {% include 'partials/form.html' with form=form fields_only=True %}
+                    {% include 'partials/form.html' with form=profile_form fields_only=True %}
+                    <br>
+                    <input type="submit" value="Изменить">
+                </form>
+                 <div class="col-4 text-center">
+                    <a href="{% url 'password_change' user_obj.pk %}"><button type="submit" class="btn btn-secondary btn-block">Смена пароля</button></a>
+                 </div>
+            </div>
+
+{% endblock %}

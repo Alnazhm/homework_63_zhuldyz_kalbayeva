@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% load static %}
+
+{% block content %}
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<article class="media">
+            {% if answer == 'yes' %}
+                {% for account in accounts %}
+                    {% if not account.is_superuser %}
+                        <p class="usernamehome-dp">
+                            <img src="{{ account.avatar.url }}" class="circlehome-dp" alt="signuplogo ">
+                            <a href="{% url 'profile' account.pk %}"><strong> "{{ account.username }}" </strong></a>
+                        </p>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+            {% if answer == 'no' %}
+                <p>Не найдено</p>
+            {% endif %}
+            {% if answer == 'accounts' %}
+                  <div class="row justify-content-center ">
+                      <div class="col-3">
+                          <figure class="image is-256x256">
+                              {% if account.avatar %}
+                              <img class="is-rounded" src="{{ account.avatar.url }}">
+                               {% else %}
+                               <img class="is-rounded" src="default_avatar/default-user.png">
+                               {% endif %}
+                          </figure>
+                       </div>
+
+                      <div class="col-6">
+                          <div class="row ">
+                              <div class="col-3">
+                                  <h1 class="user-header" style="font-weight: normal;">
+                                      {{ account.username }}</h1>
+                              </div>
+
+
+                              <div class="col-3 but">
+                                   {% if request.user == user_obj%}
+                                  <form action="{% url 'change' account.pk %}" method="POST">
+                                      {% csrf_token %}
+                                      {% bootstrap_button button_type="submit" content='Редактировать профиль' %}
+                                  </form>
+                                       {% endif %}
+                              </div>
+
+
+
+                             <div class="row">
+                                 <div class="states">
+                                    <span class="stats">{{ posts.count }} публикаций </span><span class="stats">{{ subscriptions }} подписок </span><span class="stats">{{ subscribers }} подписчиков</span>
+                             </div>
+
+                             <div class="row">
+                                 <div class="name">
+                                     <h3 class="about_user_title" >{{ account.first_name }} {{ account.last_name }}</h3>
+                                    <p class="username">{{ account.about_user }} </p>
+                                 </div>
+                             </div>
+
+
+                             <div class="row">
+                                 <div class="name">
+                                     <h3 class="about_user_title" >{{ account.first_name }} {{ account.last_name }}</h3>
+                                    <p class="username">{{ account.about_user }} </p>
+                                 </div>
+                             </div>
+                          </div>
+                      </div>
+
+                      <form action="{% url 'follow' account.pk %}" method="POST" >
+                          {% csrf_token %}
+
+                          <input type="submit" value="Подписаться"/>
+                      </form>
+
+                      {% if request.user == account%}
+                          <form action="{% url 'logout' %}" method="POST" style="margin-bottom: 20px;">
+                              {% csrf_token %}
+                              <input type="submit" value="Выход"/>
+                          </form>
+                      {% endif %}
+                  </div>
+
+                 <hr>
+
+                  <div class="row justify-content-between">
+                      {% for post in posts %}
+                      <div class="col-4 imgs">
+
+                          <a href="{% url 'post_detail' post.pk %}">
+                              <img src="{{ post.image.url }}" class="img-responsive"
+                                   style="width:100%; margin: auto; max-width: 350px; height: 350px;
+                                   display: block; margin: auto;">
+                          </a>
+                      </div>
+                    {% endfor %}
+                  </div>
+            {% endif%}
+{% endblock %}

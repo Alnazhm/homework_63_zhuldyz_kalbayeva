@@ -1,0 +1,41 @@
+{% load bootstrap3 %}
+{% load static %}
+{% block content %}
+
+<div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <a class="navbar-brand" href="/"><img id="panelpic" src="{% static 'images/instanav.png' %}" alt="instagram logo on nav-bar " style="width:53px; height:30px;margin-top:5px;margin-left:26px;border-right:1px solid;padding-right: 23px; "></a>
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="/"><img src="{% static 'images/instalogo.svg' %}" alt="Instagram name on nav-bar " style="width:120px; height:30px; margin-left: -40px;"> <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+              <form class="text-center" style="font-size:15px;padding-right: 300px" action="" method="GET">
+                  {{ form.search }}
+                  {% for error in form.search.errors %}
+                      <p class="form-error">{{ error }}</p>
+                  {% endfor %}
+              </form>
+          </li>
+          {% if user.is_authenticated %}
+              <li class="nav-item">
+                  <a class="nav-link" href="{% url 'create_post' user.pk %}">
+                      <i class="material-icons" style="font-size:25px;">add_a_photo</i>
+                  </a>
+              </li>
+              <li class="nav-item" >
+                  <a class="nav-link" href="{% url 'profile' user.pk %}">
+                      <i class="material-icons" style="font-size:25px;">account_circle</i>
+                  </a>
+              </li>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
+</div>
+{% endblock %}
+

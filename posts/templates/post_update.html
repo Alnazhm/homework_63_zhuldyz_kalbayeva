@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}
+    Post update
+{% endblock %}
+{% block content %}
+    {{ post.description }}
+<form action="{% url 'post_update' post.pk %}" method="POST">
+    <div class="form">
+        {% include 'partials/post_form_2.html' with button_text='Изменить' %}
+    </div>
+</form>
+{% endblock %}
