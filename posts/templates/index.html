@@ -23,37 +23,24 @@
                 {% endfor %}
             {% endif %}
             {% if answer == 'no' %}
-                <p>Не найдено</p>
+                <p>Ничего нет </p>
             {% endif %}
             {% if answer == 'post' %}
 
 
                 <div class="container">
                     {% if posts %} {% for post in posts %}
-
                     <div class="imagepadding">
-
-                        <!-- BootStrap Class For adding Border arround picture -->
                         <div class="panel panel-primary">
-
-                            <!-- SECTION 1 PROFILE & user name -->
-
-                            <!-- Profile Picture and User name for account -->
-
                             <p class="usernamehome-dp">
                                 <img src="{{ post.author.avatar.url }}" class="circlehome-dp" alt="signuplogo ">
-
                                 <a href="{% url 'profile' post.author.pk %}"><strong> "{{ post.author.username }}" </strong></a>
-
                             </p>
-
-                            <!-- SECTION 2 (IMAGE) -->
-                            <!-- POSTED IMAGE -->
                             <a href="{{ post.image }}" data-lightbox="gallery">
                                 <img src="{{ post.image.url }}" class="img-responsive" style="width:100%;margin-left: 0%;margin-top:15px; ">
                             </a>
 
-                            <!--Like & Comment Section -->
+
                             <div class="container">
                                 <div class='likesect'>
 
@@ -75,7 +62,7 @@
 
                             <strong> "{{ post.author.username }}" </strong>
                             <p></strong> {{post.description}}</p>
-                                    <p><strong>{{post.comment_count}} комментариев:</strong> </p>
+                                    <p><strong>{{post.comments_count}} Комментарии:</strong> </p>
                                     {% for comment in comments %}
                                         {% if post == comment.post %}
                                              <img src="{{ comment.author.avatar.url }}" class="circlehome-dp" alt="signuplogo ">
@@ -92,7 +79,7 @@
                                 <form class="comment" action="{% url 'comment' post.pk %}" method="POST">
                                     {% csrf_token %}
                                     {% bootstrap_form comment_form %}
-                                    {% bootstrap_button button_type="submit" content='Опубликовать' %}
+                                    {% bootstrap_button button_type="submit" content='Отправить' %}
                                 </form>
                             </div>
                                 </div>

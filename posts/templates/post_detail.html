@@ -13,18 +13,10 @@
                                 <img src="{{ post.author.avatar.url }}" class="circlehome-dp" alt="signuplogo ">
                                 <a href="{% url 'profile' post.author.pk %}"><strong> "{{ post.author.username }}" </strong></a>
                             </p>
-
-
-
                                 <img src="{{ post.image.url }}" class="img-responsive" style="width:100%;margin-left: 0%;margin-top:15px; ">
-
-
-
                             <div class="container">
                                 <div class='likesect'>
-
                                     <span class="like-row">
-
                                         {% if request.user not in post.user_likes.all %}
                                             <a href="{% url 'like' post.pk %}"><img class="likedhrt" src="{% static 'images/like.png' %}" alt="liked picture"class="img-responsive"> </a>
                                         {% else %}
@@ -36,12 +28,9 @@
 
                                         </p>
                                     </span>
-
-
-
                             <strong> "{{ post.author.username }}" </strong>
                             <p></strong> {{post.description}}</p>
-                                    <p><strong>{{post.comment_count}} комментариев:</strong> </p>
+                                    <p><strong>{{post.comments_count}} Комментарии:</strong> </p>
                                     {% for comment in comments %}
                                         {% if post == comment.post %}
                                              <img src="{{ comment.author.avatar.url }}" class="circlehome-dp" alt="signuplogo ">

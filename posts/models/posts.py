@@ -9,8 +9,13 @@ class Post(models.Model):
         null=False,
         blank=False,
         upload_to='posts')
-    author = models.ForeignKey(verbose_name='Автор', to=get_user_model(), related_name='posts', null=False, blank=False,
-                               on_delete=models.CASCADE)
+    author = models.ForeignKey(
+        verbose_name='Автор',
+        to=get_user_model(),
+        related_name='posts',
+        null=False,
+        blank=False,
+        on_delete=models.CASCADE)
     comments_count = models.IntegerField(
         verbose_name='Количество комментариев',
         default=0,

@@ -66,18 +66,11 @@ class ProfileView(DetailView):
     answer = 'accounts'
 
     def get(self, request, *args, **kwargs):
-        self.form = self.get_search_form()
-        self.search_value = self.get_search_value()
+        self.form = SearchForm(self.request.GET)
+        if self.form.is_valid():
+            self.search_value = self.form.cleaned_data.get('search')
         return super().get(request, *args, **kwargs)
 
-    def get_search_form(self):
-        print(self.request.GET)
-        return SearchForm(self.request.GET)
-
-    def get_search_value(self):
-        if self.form.is_valid():
-            return self.form.cleaned_data.get('search')
-        return None
 
     def get_queryset(self):
         queryset = super().get_queryset().exclude(is_deleted=True)
@@ -97,12 +90,9 @@ class ProfileView(DetailView):
         account = self.object
         subscriptions = account.subscriptions.count()
         subscribers = account.subscribers.count()
-        # posts = account.posts.order_by('-created_at').exclude(is_deleted=True)
         posts = Post.objects.filter(author=account).order_by('-created_at').exclude(is_deleted=True)
         if self.search_value:
             context['accounts'] = self.get_queryset()
-            print(self.get_queryset())
-            print(self.answer)
         context['answer'] = self.answer
         context['posts'] = posts
         context['form'] = self.form
